@@ -246,9 +246,6 @@ fsm:
   fsmXnetwork:
     # -- xmgt
     xmgt:
-      kernelTracing: true
-      cniMode: true
-      kindMode: false
       resource:
         limits:
           cpu: "1.5"
