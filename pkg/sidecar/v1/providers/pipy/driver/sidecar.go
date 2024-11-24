@@ -19,7 +19,6 @@ import (
 
 // PipySidecarDriver is the pipy sidecar driver
 type PipySidecarDriver struct {
-	ctx *fctx.ControllerContext
 }
 
 // Start is the implement for ControllerDriver.Start
@@ -34,7 +33,6 @@ func (sd PipySidecarDriver) Start(ctx context.Context) (health.Probes, error) {
 	k8sClient := ctrlCtx.MeshCatalog.GetKubeController()
 	proxyServerPort := ctrlCtx.ProxyServerPort
 	proxyServiceCert := ctrlCtx.ProxyServiceCert
-	sd.ctx = ctrlCtx
 
 	proxyMapper := &registry2.KubeProxyServiceMapper{KubeController: k8sClient}
 	proxyRegistry := registry2.NewProxyRegistry(proxyMapper, ctrlCtx.MsgBroker)
