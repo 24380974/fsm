@@ -477,9 +477,6 @@ fsm:
     # The specified tolerations allow pods to schedule onto nodes with matching taints.
     tolerations: [ ]
 
-  # -- Enable the debug HTTP server on FSM controller
-  enableDebugServer: false
-
   # -- Enable permissive traffic policy mode
   enablePermissiveTrafficPolicy: true
 

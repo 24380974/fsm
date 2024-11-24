@@ -766,20 +766,6 @@ func (mr *MockConfiguratorMockRecorder) GetTrafficInterceptionMode() *gomock.Cal
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTrafficInterceptionMode", reflect.TypeOf((*MockConfigurator)(nil).GetTrafficInterceptionMode))
 }
 
-// IsDebugServerEnabled mocks base method.
-func (m *MockConfigurator) IsDebugServerEnabled() bool {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "IsDebugServerEnabled")
-	ret0, _ := ret[0].(bool)
-	return ret0
-}
-
-// IsDebugServerEnabled indicates an expected call of IsDebugServerEnabled.
-func (mr *MockConfiguratorMockRecorder) IsDebugServerEnabled() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsDebugServerEnabled", reflect.TypeOf((*MockConfigurator)(nil).IsDebugServerEnabled))
-}
-
 // IsEgressEnabled mocks base method.
 func (m *MockConfigurator) IsEgressEnabled() bool {
 	m.ctrl.T.Helper()

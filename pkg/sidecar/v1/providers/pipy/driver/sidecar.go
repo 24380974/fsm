@@ -38,7 +38,7 @@ func (sd PipySidecarDriver) Start(ctx context.Context) (health.Probes, error) {
 	proxyRegistry := registry2.NewProxyRegistry(proxyMapper, ctrlCtx.MsgBroker)
 	go proxyRegistry.ReleaseCertificateHandler(certManager, ctrlCtx.Stop)
 	// Create and start the pipy repo http service
-	repoServer := repo.NewRepoServer(ctrlCtx.MeshCatalog, proxyRegistry, cfg.IsDebugServerEnabled(), ctrlCtx.FsmNamespace, cfg, certManager, k8sClient, ctrlCtx.MsgBroker)
+	repoServer := repo.NewRepoServer(ctrlCtx.MeshCatalog, proxyRegistry, ctrlCtx.FsmNamespace, cfg, certManager, k8sClient, ctrlCtx.MsgBroker)
 	return repoServer, repoServer.Start(proxyServerPort, proxyServiceCert)
 }
 

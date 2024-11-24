@@ -87,11 +87,6 @@ func (c *client) IsEgressEnabled() bool {
 	panic("implement me")
 }
 
-func (c *client) IsDebugServerEnabled() bool {
-	//TODO implement me
-	panic("implement me")
-}
-
 func (c *client) IsTracingEnabled() bool {
 	//TODO implement me
 	panic("implement me")

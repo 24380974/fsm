@@ -36,7 +36,7 @@ var (
 )
 
 // NewRepoServer creates a new Aggregated Discovery Service server
-func NewRepoServer(meshCatalog catalog.MeshCataloger, proxyRegistry *registry.ProxyRegistry, _ bool, fsmNamespace string, cfg configurator.Configurator, certManager *certificate.Manager, kubecontroller k8s.Controller, msgBroker *messaging.Broker) *Server {
+func NewRepoServer(meshCatalog catalog.MeshCataloger, proxyRegistry *registry.ProxyRegistry, fsmNamespace string, cfg configurator.Configurator, certManager *certificate.Manager, kubecontroller k8s.Controller, msgBroker *messaging.Broker) *Server {
 	if len(cfg.GetRepoServerCodebase()) > 0 {
 		fsmCodebase = fmt.Sprintf("%s/%s", cfg.GetRepoServerCodebase(), fsmCodebase)
 		fsmSidecarCodebase = fmt.Sprintf("%s/%s", cfg.GetRepoServerCodebase(), fsmSidecarCodebase)

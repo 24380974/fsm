@@ -92,11 +92,6 @@ func (c *Client) IsEgressEnabled() bool {
 	return c.getMeshConfig().Spec.Traffic.EnableEgress
 }
 
-// IsDebugServerEnabled determines whether fsm debug HTTP server is enabled
-func (c *Client) IsDebugServerEnabled() bool {
-	return c.getMeshConfig().Spec.Observability.EnableDebugServer
-}
-
 // IsTracingEnabled returns whether tracing is enabled
 func (c *Client) IsTracingEnabled() bool {
 	return c.getMeshConfig().Spec.Observability.Tracing.Enable

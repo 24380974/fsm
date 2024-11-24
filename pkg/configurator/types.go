@@ -50,9 +50,6 @@ type Configurator interface {
 	// IsEgressEnabled determines whether egress is globally enabled in the mesh or not
 	IsEgressEnabled() bool
 
-	// IsDebugServerEnabled determines whether fsm debug HTTP server is enabled
-	IsDebugServerEnabled() bool
-
 	// IsTracingEnabled returns whether tracing is enabled
 	IsTracingEnabled() bool
 

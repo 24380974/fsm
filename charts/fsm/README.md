@@ -98,7 +98,6 @@ The following table lists the configurable parameters of the fsm chart and their
 | fsm.egressGateway.port | int | `1080` |  |
 | fsm.egressGateway.replicaCount | int | `1` | FSM Egress Gateway's replica count (ignored when autoscale.enable is true) |
 | fsm.egressGateway.resources | object | `{"limits":{"cpu":"1000m","memory":"512M"},"requests":{"cpu":"300m","memory":"128M"}}` | FSM Egress Gateway's container resource parameters. |
-| fsm.enableDebugServer | bool | `false` | Enable the debug HTTP server on FSM controller |
 | fsm.enableEgress | bool | `true` | Enable egress in the mesh |
 | fsm.enableFluentbit | bool | `false` | Enable Fluent Bit sidecar deployment on FSM controller's pod |
 | fsm.enableMultiClusters | bool | `false` |  |
