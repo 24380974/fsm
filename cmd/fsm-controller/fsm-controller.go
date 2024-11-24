@@ -15,14 +15,12 @@ import (
 
 	"github.com/go-logr/zerologr"
 
-	"github.com/flomesh-io/fsm/pkg/debugger"
-	mgrecon "github.com/flomesh-io/fsm/pkg/manager/reconciler"
-	sidecarv1 "github.com/flomesh-io/fsm/pkg/sidecar/v1"
-
 	"github.com/flomesh-io/fsm/pkg/dns"
 	connectorClientset "github.com/flomesh-io/fsm/pkg/gen/client/connector/clientset/versioned"
 	machineClientset "github.com/flomesh-io/fsm/pkg/gen/client/machine/clientset/versioned"
 	policyAttachmentClientset "github.com/flomesh-io/fsm/pkg/gen/client/policyattachment/clientset/versioned"
+	mgrecon "github.com/flomesh-io/fsm/pkg/manager/reconciler"
+	sidecarv1 "github.com/flomesh-io/fsm/pkg/sidecar/v1"
 
 	ctrl "sigs.k8s.io/controller-runtime"
 	ctrlwh "sigs.k8s.io/controller-runtime/pkg/webhook"
@@ -237,9 +235,8 @@ func main() {
 	}
 
 	background := fctx.ControllerContext{
-		FsmNamespace:  fsmNamespace,
-		KubeConfig:    kubeConfig,
-		DebugHandlers: make(map[string]http.Handler),
+		FsmNamespace: fsmNamespace,
+		KubeConfig:   kubeConfig,
 	}
 	ctx, cancel := context.WithCancel(&background)
 	stop := signals.RegisterExitHandlers(cancel)
@@ -368,11 +365,6 @@ func main() {
 		if err != nil {
 			events.GenericEventRecorder().FatalEvent(err, events.InitializationError, "Error initializing proxy control server")
 		}
-
-		// Create DebugServer and start its config event listener.
-		// Listener takes care to start and stop the debug server as appropriate
-		debugConfig := debugger.NewDebugConfig(certManager, meshCatalog, kubeConfig, kubeClient, cfg, k8sClient, msgBroker)
-		go debugConfig.StartDebugServerConfigListener(background.DebugHandlers, stop)
 
 		go dns.WatchAndUpdateLocalDNSProxy(msgBroker, stop)
 		// Start the k8s pod watcher that updates corresponding k8s secrets
