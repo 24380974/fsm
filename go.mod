@@ -69,7 +69,7 @@ require (
 	github.com/stretchr/objx v0.5.2 // indirect
 	golang.org/x/net v0.29.0
 	golang.org/x/sync v0.8.0
-	golang.org/x/sys v0.27.0
+	golang.org/x/sys v0.27.0 // indirect
 	google.golang.org/genproto v0.0.0-20240903143218-8af14fe29dc1 // indirect
 	honnef.co/go/tools v0.1.3 // indirect
 )
