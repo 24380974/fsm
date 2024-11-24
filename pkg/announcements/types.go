@@ -372,6 +372,17 @@ const (
 
 	// ---
 
+	// XAccessControlAdded is the type of announcement emitted when we observe an addition of accesscontrols.xnetwork.flomesh.io
+	XAccessControlAdded Kind = "xAccessControl-added"
+
+	// XAccessControlDeleted the type of announcement emitted when we observe a deletion of accesscontrols.xnetwork.flomesh.io
+	XAccessControlDeleted Kind = "xAccessControl-deleted"
+
+	// XAccessControlUpdated is the type of announcement emitted when we observe an update to accesscontrols.xnetwork.flomesh.io
+	XAccessControlUpdated Kind = "xAccessControl-updated"
+
+	// ---
+
 	// EndpointSlicesAdded is the type of announcement emitted when we observe an addition of a Kubernetes EndpointSlices
 	EndpointSlicesAdded Kind = "endpointslices-added"
 

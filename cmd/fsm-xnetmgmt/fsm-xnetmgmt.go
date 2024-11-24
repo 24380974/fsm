@@ -17,6 +17,7 @@ import (
 	"github.com/flomesh-io/fsm/pkg/configurator"
 	"github.com/flomesh-io/fsm/pkg/constants"
 	configClientset "github.com/flomesh-io/fsm/pkg/gen/client/config/clientset/versioned"
+	xnetworkClientset "github.com/flomesh-io/fsm/pkg/gen/client/xnetwork/clientset/versioned"
 	"github.com/flomesh-io/fsm/pkg/health"
 	"github.com/flomesh-io/fsm/pkg/httpserver"
 	"github.com/flomesh-io/fsm/pkg/k8s"
@@ -98,6 +99,7 @@ func main() {
 	}
 	kubeClient := kubernetes.NewForConfigOrDie(kubeConfig)
 	configClient := configClientset.NewForConfigOrDie(kubeConfig)
+	xnetworkClient := xnetworkClientset.NewForConfigOrDie(kubeConfig)
 
 	service.SetTrustDomain(trustDomain)
 
@@ -110,6 +112,7 @@ func main() {
 	informerCollection, err := informers.NewInformerCollection(meshName, stop,
 		informers.WithKubeClient(kubeClient),
 		informers.WithConfigClient(configClient, fsmMeshConfigName, fsmNamespace),
+		informers.WithXNetworkClient(xnetworkClient),
 	)
 
 	if err != nil {

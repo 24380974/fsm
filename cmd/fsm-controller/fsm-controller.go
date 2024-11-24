@@ -17,6 +17,7 @@ import (
 
 	"github.com/flomesh-io/fsm/pkg/debugger"
 	mgrecon "github.com/flomesh-io/fsm/pkg/manager/reconciler"
+	sidecarv1 "github.com/flomesh-io/fsm/pkg/sidecar/v1"
 
 	"github.com/flomesh-io/fsm/pkg/dns"
 	connectorClientset "github.com/flomesh-io/fsm/pkg/gen/client/connector/clientset/versioned"
@@ -66,7 +67,7 @@ import (
 	pluginClientset "github.com/flomesh-io/fsm/pkg/gen/client/plugin/clientset/versioned"
 	policyClientset "github.com/flomesh-io/fsm/pkg/gen/client/policy/clientset/versioned"
 
-	_ "github.com/flomesh-io/fsm/pkg/sidecar/providers/pipy/driver"
+	_ "github.com/flomesh-io/fsm/pkg/sidecar/v1/providers/pipy/driver"
 
 	"github.com/flomesh-io/fsm/pkg/catalog"
 	"github.com/flomesh-io/fsm/pkg/certificate"
@@ -91,7 +92,6 @@ import (
 	"github.com/flomesh-io/fsm/pkg/providers/kube"
 	"github.com/flomesh-io/fsm/pkg/reconciler"
 	"github.com/flomesh-io/fsm/pkg/service"
-	"github.com/flomesh-io/fsm/pkg/sidecar"
 	"github.com/flomesh-io/fsm/pkg/signals"
 	"github.com/flomesh-io/fsm/pkg/smi"
 	"github.com/flomesh-io/fsm/pkg/validator"
@@ -350,7 +350,7 @@ func main() {
 	// Health/Liveness probes
 	var funcProbes []health.Probes
 	if cfg.GetTrafficInterceptionMode() == constants.TrafficInterceptionModePodLevel {
-		err = sidecar.InstallDriver(cfg.GetSidecarClass())
+		err = sidecarv1.InstallDriver(cfg.GetSidecarClass())
 		if err != nil {
 			events.GenericEventRecorder().FatalEvent(err, events.InitializationError, "Error creating sidecar driver")
 		}
@@ -364,7 +364,7 @@ func main() {
 		background.ProxyServerPort = cfg.GetProxyServerPort()
 
 		// Create and start the sidecar proxy service
-		healthProbes, err := sidecar.Start(ctx)
+		healthProbes, err := sidecarv1.Start(ctx)
 		if err != nil {
 			events.GenericEventRecorder().FatalEvent(err, events.InitializationError, "Error initializing proxy control server")
 		}
