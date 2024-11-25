@@ -18,6 +18,7 @@ import (
 	"github.com/flomesh-io/fsm/pkg/constants"
 	configClientset "github.com/flomesh-io/fsm/pkg/gen/client/config/clientset/versioned"
 	xnetworkClientset "github.com/flomesh-io/fsm/pkg/gen/client/xnetwork/clientset/versioned"
+	xnetworkscheme "github.com/flomesh-io/fsm/pkg/gen/client/xnetwork/clientset/versioned/scheme"
 	"github.com/flomesh-io/fsm/pkg/health"
 	"github.com/flomesh-io/fsm/pkg/httpserver"
 	"github.com/flomesh-io/fsm/pkg/k8s"
@@ -27,8 +28,10 @@ import (
 	"github.com/flomesh-io/fsm/pkg/messaging"
 	"github.com/flomesh-io/fsm/pkg/metricsstore"
 	"github.com/flomesh-io/fsm/pkg/service"
+	sidecarv2 "github.com/flomesh-io/fsm/pkg/sidecar/v2"
 	"github.com/flomesh-io/fsm/pkg/signals"
 	"github.com/flomesh-io/fsm/pkg/version"
+	"github.com/flomesh-io/fsm/pkg/xnetwork"
 )
 
 var (
@@ -55,6 +58,7 @@ func init() {
 	flags.StringVar(&fsmVersion, "fsm-version", "", "Version of FSM")
 	flags.StringVar(&trustDomain, "trust-domain", "cluster.local", "The trust domain to use as part of the common name when requesting new certificates")
 	_ = clientgoscheme.AddToScheme(scheme)
+	_ = xnetworkscheme.AddToScheme(scheme)
 }
 
 func parseFlags() error {
@@ -119,11 +123,16 @@ func main() {
 		events.GenericEventRecorder().FatalEvent(err, events.InitializationError, "Error creating informer collection")
 	}
 
+	kubeController := k8s.NewKubernetesController(informerCollection, nil, nil, msgBroker, k8s.Services, k8s.Pods)
+
 	// Initialize Configurator to watch resources in the config.flomesh.io API group
 	cfg := configurator.NewConfigurator(informerCollection, fsmNamespace, fsmMeshConfigName, msgBroker)
 
-	fmt.Println(cfg.GetFSMLogLevel())
-	fmt.Println(ctx.Err())
+	xnetworkController := xnetwork.NewXNetworkController(informerCollection, kubeClient, kubeController, msgBroker)
+
+	server := sidecarv2.NewXNetConfigServer(ctx, cfg, xnetworkController, kubeController, msgBroker)
+	server.Start()
+	go server.BroadcastListener(stop)
 
 	version.SetMetric()
 	/*

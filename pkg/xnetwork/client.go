@@ -13,7 +13,7 @@ import (
 )
 
 // NewXNetworkController returns a xnetwork.Controller interface related to functionality provided by the resources in the xnetwork.flomesh.io API group
-func NewXNetworkController(informerCollection *informers.InformerCollection, kubeClient kubernetes.Interface, kubeController k8s.Controller, msgBroker *messaging.Broker) *Client {
+func NewXNetworkController(informerCollection *informers.InformerCollection, kubeClient kubernetes.Interface, kubeController k8s.Controller, msgBroker *messaging.Broker) Controller {
 	client := &Client{
 		informers:      informerCollection,
 		kubeClient:     kubeClient,
@@ -35,6 +35,12 @@ func NewXNetworkController(informerCollection *informers.InformerCollection, kub
 	}
 	client.informers.AddEventHandler(informers.InformerKeyXNetworkAccessControl, k8s.GetEventHandlerFuncs(shouldObserve, xAccessControlEventTypes, msgBroker))
 
+	podEventTypes := k8s.EventTypes{
+		Add:    announcements.PodAdded,
+		Update: announcements.PodUpdated,
+		Delete: announcements.PodDeleted,
+	}
+	client.informers.AddEventHandler(informers.InformerKeyPod, k8s.GetEventHandlerFuncs(shouldObserve, podEventTypes, msgBroker))
 	return client
 }
 
