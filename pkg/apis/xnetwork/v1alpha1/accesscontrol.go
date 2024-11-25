@@ -26,17 +26,13 @@ type AccessControl struct {
 
 // AccessControlSpec is the type used to represent the AccessControl policy specification.
 type AccessControlSpec struct {
-	// Sources defines the list of sources the AccessControl policy applies to.
-	Sources []AccessControlSourceSpec `json:"sources"`
+	// Services defines the list of sources the AccessControl policy applies to.
+	Services []AccessControlServiceSpec `json:"services"`
 }
 
-// AccessControlSourceSpec is the type used to represent the Source in the list of Sources specified in an
+// AccessControlServiceSpec is the type used to represent the Source in the list of Sources specified in an
 // AccessControl policy specification.
-type AccessControlSourceSpec struct {
-	// Kind defines the kind for the source in the AccessControl policy.
-	// Must be one of: Service, AuthenticatedPrincipal, IPRange
-	Kind string `json:"kind"`
-
+type AccessControlServiceSpec struct {
 	// Name defines the name of the source for the given Kind.
 	Name string `json:"name"`
 

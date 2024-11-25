@@ -46,19 +46,14 @@ spec:
           spec:
             description: Spec is the Ingress backend policy specification
             properties:
-              sources:
-                description: Sources defines the list of sources the AccessControl
+              services:
+                description: Services defines the list of sources the AccessControl
                   policy applies to.
                 items:
                   description: |-
-                    AccessControlSourceSpec is the type used to represent the Source in the list of Sources specified in an
+                    AccessControlServiceSpec is the type used to represent the Source in the list of Sources specified in an
                     AccessControl policy specification.
                   properties:
-                    kind:
-                      description: |-
-                        Kind defines the kind for the source in the AccessControl policy.
-                        Must be one of: Service, AuthenticatedPrincipal, IPRange
-                      type: string
                     name:
                       description: Name defines the name of the source for the given
                         Kind.
@@ -67,12 +62,11 @@ spec:
                       description: Namespace defines the namespace for the given source.
                       type: string
                   required:
-                  - kind
                   - name
                   type: object
                 type: array
             required:
-            - sources
+            - services
             type: object
         type: object
     served: true
