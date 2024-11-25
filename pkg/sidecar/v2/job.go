@@ -19,6 +19,7 @@ func (job *xnetworkConfigJob) GetDoneCh() <-chan struct{} {
 
 func (job *xnetworkConfigJob) Run() {
 	defer close(job.done)
+	aclAddrs := make(map[uint32]uint8)
 	acls := job.server.xnetworkController.GetAccessControls()
 	for _, acl := range acls {
 		if len(acl.Spec.Services) > 0 {
@@ -30,23 +31,17 @@ func (job *xnetworkConfigJob) Run() {
 					meshSvc.Namespace = acl.Namespace
 				}
 				if k8sSvc := job.server.kubeController.GetService(meshSvc); k8sSvc != nil {
-					aclKey := new(maps.AclKey)
-					aclKey.Addr[0], _ = util.IPv4ToInt(net.ParseIP(k8sSvc.Spec.ClusterIP))
-					aclKey.Port = util.HostToNetShort(0)
-					aclKey.Proto = uint8(maps.IPPROTO_TCP)
-
-					aclVal := new(maps.AclVal)
-					aclVal.Flag = aclFlag
-					aclVal.Id = aclId
-					aclVal.Acl = uint8(maps.ACL_TRUSTED)
-
-					maps.AddAclEntry(aclKey, aclVal)
+					aclAddr, _ := util.IPv4ToInt(net.ParseIP(k8sSvc.Spec.ClusterIP))
+					aclAddrs[aclAddr] = uint8(maps.ACL_TRUSTED)
 				}
 			}
 		}
 	}
+	job.server.updateAcls(aclAddrs)
+
+	job.server.updateDNSNat()
 }
 
 func (job *xnetworkConfigJob) JobName() string {
-	return "fsm-xnetworkConfig-job"
+	return "fsm-xnetwork-config-job"
 }

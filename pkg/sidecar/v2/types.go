@@ -5,9 +5,21 @@ import (
 
 	"github.com/flomesh-io/fsm/pkg/configurator"
 	"github.com/flomesh-io/fsm/pkg/k8s"
+	"github.com/flomesh-io/fsm/pkg/logger"
 	"github.com/flomesh-io/fsm/pkg/messaging"
 	"github.com/flomesh-io/fsm/pkg/workerpool"
 	"github.com/flomesh-io/fsm/pkg/xnetwork"
+)
+
+const (
+	aclId   = uint16('c'<<8 | 'l')
+	aclFlag = uint8('a')
+
+	bridgeDev = `cni0`
+)
+
+var (
+	log = logger.New("fsm-xnetwork-config")
 )
 
 type Server struct {
@@ -19,8 +31,3 @@ type Server struct {
 	workQueues         *workerpool.WorkerPool
 	ready              bool
 }
-
-const (
-	aclId   = uint16('c'<<8 | 'l')
-	aclFlag = uint8('a')
-)

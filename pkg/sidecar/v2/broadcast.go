@@ -1,7 +1,6 @@
 package v2
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/flomesh-io/fsm/pkg/announcements"
@@ -24,13 +23,11 @@ func (s *Server) BroadcastListener(stopCh <-chan struct{}) {
 		case <-stopCh:
 			return
 		case <-xnetworkUpdateChan:
-			fmt.Println(time.Now())
 			// Wait for an informer synchronization period
 			slidingTimer.Reset(time.Second * 10)
 			// Avoid data omission
 			reconfirm = true
 		case <-slidingTimer.C:
-
 			newJob := func() *xnetworkConfigJob {
 				return &xnetworkConfigJob{
 					done:   make(chan struct{}),
