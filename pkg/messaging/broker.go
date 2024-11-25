@@ -1446,12 +1446,10 @@ func getConnectorUpdateEvent(msg events.PubSubMessage) *connectorUpdateEvent {
 // result in a xnetwork policy update on an appropriate topic. Nil is returned if the PubSubMessage
 // does not result in a xnetwork policy update event.
 func getXNetworkUpdateEvent(msg events.PubSubMessage) *xnetworkUpdateEvent {
-	fmt.Println("getXNetworkUpdateEvent:", msg.Kind)
 	switch msg.Kind {
 	case
 		//
 		// K8s native resource events
-		announcements.PodAdded, announcements.PodUpdated, announcements.PodDeleted,
 		announcements.ServiceAdded, announcements.ServiceUpdated, announcements.ServiceDeleted,
 
 		//

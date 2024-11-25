@@ -69,7 +69,7 @@ require (
 	github.com/stretchr/objx v0.5.2 // indirect
 	golang.org/x/net v0.29.0
 	golang.org/x/sync v0.8.0
-	golang.org/x/sys v0.27.0 // indirect
+	golang.org/x/sys v0.27.0
 	google.golang.org/genproto v0.0.0-20240903143218-8af14fe29dc1 // indirect
 	honnef.co/go/tools v0.1.3 // indirect
 )
@@ -79,6 +79,7 @@ require (
 	github.com/briandowns/spinner v1.19.0
 	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/cert-manager/cert-manager v1.12.14
+	github.com/cilium/ebpf v0.9.1
 	github.com/deckarep/golang-set v1.8.0
 	github.com/evanphx/json-patch v5.9.0+incompatible
 	github.com/ghodss/yaml v1.0.1-0.20190212211648-25d852aebe32

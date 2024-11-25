@@ -33,8 +33,8 @@ func (s *Server) BroadcastListener(stopCh <-chan struct{}) {
 
 			newJob := func() *xnetworkConfigJob {
 				return &xnetworkConfigJob{
-					done: make(chan struct{}),
-					//connectController: c,
+					done:   make(chan struct{}),
+					server: s,
 				}
 			}
 			<-s.workQueues.AddJob(newJob())

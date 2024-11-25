@@ -1,6 +1,9 @@
 package xnetwork
 
 import (
+	"strings"
+
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 
@@ -33,15 +36,46 @@ func NewXNetworkController(informerCollection *informers.InformerCollection, kub
 		Update: announcements.XAccessControlUpdated,
 		Delete: announcements.XAccessControlDeleted,
 	}
-	client.informers.AddEventHandler(informers.InformerKeyXNetworkAccessControl, k8s.GetEventHandlerFuncs(shouldObserve, xAccessControlEventTypes, msgBroker))
+	client.informers.AddEventHandler(informers.InformerKeyXNetworkAccessControl,
+		k8s.GetEventHandlerFuncs(shouldObserve, xAccessControlEventTypes, msgBroker))
 
-	podEventTypes := k8s.EventTypes{
-		Add:    announcements.PodAdded,
-		Update: announcements.PodUpdated,
-		Delete: announcements.PodDeleted,
+	svcEventTypes := k8s.EventTypes{
+		Add:    announcements.ServiceAdded,
+		Update: announcements.ServiceUpdated,
+		Delete: announcements.ServiceDeleted,
 	}
-	client.informers.AddEventHandler(informers.InformerKeyPod, k8s.GetEventHandlerFuncs(shouldObserve, podEventTypes, msgBroker))
+	client.informers.AddEventHandler(informers.InformerKeyService,
+		k8s.GetEventHandlerFuncs(func(obj interface{}) bool {
+			service, ok := obj.(corev1.Service)
+			if !ok {
+				return false
+			}
+			return client.isAccessControlService(&service)
+		}, svcEventTypes, msgBroker))
+
 	return client
+}
+
+func (c *Client) isAccessControlService(service *corev1.Service) bool {
+	for _, accessControlIface := range c.informers.List(informers.InformerKeyXNetworkAccessControl) {
+		accessControl := accessControlIface.(*xnetv1alpha1.AccessControl)
+		if len(accessControl.Spec.Services) > 0 {
+			for _, aclService := range accessControl.Spec.Services {
+				if strings.EqualFold(aclService.Name, service.Name) {
+					if len(aclService.Namespace) > 0 {
+						if strings.EqualFold(aclService.Namespace, service.Namespace) {
+							return true
+						}
+					} else {
+						if strings.EqualFold(accessControl.Namespace, service.Namespace) {
+							return true
+						}
+					}
+				}
+			}
+		}
+	}
+	return false
 }
 
 // GetAccessControls lists AccessControls

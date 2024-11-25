@@ -123,7 +123,7 @@ func main() {
 		events.GenericEventRecorder().FatalEvent(err, events.InitializationError, "Error creating informer collection")
 	}
 
-	kubeController := k8s.NewKubernetesController(informerCollection, nil, nil, msgBroker, k8s.Services, k8s.Pods)
+	kubeController := k8s.NewKubernetesController(informerCollection, nil, nil, msgBroker)
 
 	// Initialize Configurator to watch resources in the config.flomesh.io API group
 	cfg := configurator.NewConfigurator(informerCollection, fsmNamespace, fsmMeshConfigName, msgBroker)

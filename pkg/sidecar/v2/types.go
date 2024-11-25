@@ -19,3 +19,8 @@ type Server struct {
 	workQueues         *workerpool.WorkerPool
 	ready              bool
 }
+
+const (
+	aclId   = uint16('c'<<8 | 'l')
+	aclFlag = uint8('a')
+)
