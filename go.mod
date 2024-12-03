@@ -75,12 +75,15 @@ require (
 )
 
 require (
+	dubbo.apache.org/dubbo-go/v3 v3.1.1
 	github.com/blang/semver v3.5.1+incompatible
 	github.com/briandowns/spinner v1.19.0
 	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/cert-manager/cert-manager v1.12.14
 	github.com/cilium/ebpf v0.9.1
 	github.com/deckarep/golang-set v1.8.0
+	github.com/dubbogo/go-zookeeper v1.0.4-0.20211212162352-f9d2183d89d5
+	github.com/dubbogo/gost v1.14.0
 	github.com/evanphx/json-patch v5.9.0+incompatible
 	github.com/ghodss/yaml v1.0.1-0.20190212211648-25d852aebe32
 	github.com/gin-gonic/gin v1.10.0
@@ -102,6 +105,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/tidwall/gjson v1.14.4
 	github.com/tidwall/sjson v1.2.5
+	go.uber.org/atomic v1.11.0
 	golang.org/x/exp v0.0.0-20240506185415-9bf2ced13842
 	golang.org/x/time v0.6.0
 	k8s.io/gengo/v2 v2.0.0-20240228010128-51d4e06bde70
@@ -155,6 +159,7 @@ require (
 	github.com/Masterminds/squirrel v1.5.4 // indirect
 	github.com/OpenPeeDeeP/depguard v1.0.1 // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20230828082145-3c4c8a2d2371 // indirect
+	github.com/Workiva/go-datastructures v1.0.52 // indirect
 	github.com/alessio/shellescape v1.4.2 // indirect
 	github.com/alibabacloud-go/debug v0.0.0-20190504072949-9472017b5c68 // indirect
 	github.com/alibabacloud-go/tea v1.1.17 // indirect
@@ -403,6 +408,7 @@ require (
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/mxk/go-flowrate v0.0.0-20140419014527-cca7078d478f // indirect
 	github.com/nakabonne/nestif v0.3.0 // indirect
+	github.com/natefinch/lumberjack v2.0.0+incompatible // indirect
 	github.com/nbutton23/zxcvbn-go v0.0.0-20180912185939-ae427f1e4c1d // indirect
 	github.com/nicolai86/scaleway-sdk v1.10.2-0.20180628010248-798f60e20bb2 // indirect
 	github.com/nishanths/exhaustive v0.1.0 // indirect
@@ -497,7 +503,6 @@ require (
 	go.opentelemetry.io/otel/metric v1.30.0 // indirect
 	go.opentelemetry.io/otel/trace v1.30.0 // indirect
 	go.starlark.net v0.0.0-20230525235612-a134d8f9ddca // indirect
-	go.uber.org/atomic v1.11.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
 	golang.org/x/arch v0.8.0 // indirect
